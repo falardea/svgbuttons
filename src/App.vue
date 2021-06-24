@@ -1,15 +1,24 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <svg-viewport
+      v-bind:width="width" v-bind:height="height"
+      v-bind:n_buttons="n"></svg-viewport>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import SvgViewport from "./components/SvgViewport";
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    SvgViewport
+  },
+  data: function(){
+    return {
+      n: 12,
+      width: 600,
+      height: 600
+    }
   }
 }
 </script>
