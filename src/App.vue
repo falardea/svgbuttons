@@ -15,8 +15,8 @@ export default {
   },
   data: function(){
     return {
-      n: 4,
-      width: 400,
+      n: 5,
+      width: 600,
       height: 600
     }
   }
