@@ -13,6 +13,19 @@ import SvgButton from "./SvgButton";
 
 const buttonWidth = 60
 const buttonHeight = 30
+const margx = 4*buttonWidth
+const margy = 4*buttonHeight
+
+class Point{
+  constructor(x, y) {
+    this.x = x
+    this.y = y
+  }
+
+  x
+  y
+}
+
 export default {
   name: "SvgViewport",
   props: {
@@ -36,8 +49,17 @@ export default {
   created: function() {
     // If the number of buttons is not even, we'll have oddly shaped button wheels, but that's a problem for
     // another day
+    const hx = this.width/2 - margx;
+    const hy = this.height/2 - margy;
     this.base_angle = 360/this.n_buttons
-    console.log("With " + this.n_buttons + " buttons, the circle is divided into " + this.base_angle + " degrees")
+    this.theta = []
+    this.midpoints = []
+    for (let i of Array(this.n_buttons).keys()) {
+      this.theta[i] = i * this.base_angle;
+      this.midpoints[i] = new Point((this.width/2 - hx*Math.sin(this.theta[i] * Math.PI / 180)),
+              (this.height/2 - hy*Math.cos(this.theta[i] * Math.PI / 180)))
+      console.log("Theta of: " + this.theta[i] + "deg = " + this.midpoints[i].x + ", " + this.midpoints[i].y)
+    }
   }
 }
 </script>
