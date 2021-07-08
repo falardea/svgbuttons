@@ -17,12 +17,15 @@ import SvgViewport from '@/components/SvgViewport.vue';
 
 export default {
   name: 'ButtonWheel',
-  props: {
-    testState: Object
-  },
   created() {
-    console.log("n: ", this.testState.n_buttons)
-    this.n = parseInt(this.testState.n_buttons)
+    this.testState = this.getTestState()
+    if (this.testState && this.testState.n_buttons){
+      this.n = parseInt(this.testState.n_buttons)
+      console.log("n: ", this.testState.n_buttons)
+    } else {
+      this.n = 4
+      console.log("no buttons passed to page, setting to: ", this.n)
+    }
   },
   components: {
     SvgViewport,
@@ -35,10 +38,8 @@ export default {
     }
   },
   methods: {
-    backButton (){
-      this.$emit("page-change", {
-        source: "ButtonWheel"
-      })
+    getTestState(){
+      return JSON.parse(localStorage.getItem('testState'))
     }
   }
 }

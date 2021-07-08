@@ -2,10 +2,7 @@
   <div class="parent">
     <h2>Parent</h2>
     <router-view v-slot="{ Component }">
-        <component
-            :is="Component"
-            :test-state="testState"
-            v-on:page-change="setConfig($event)"/>
+        <component :is="Component"/>
     </router-view>
   </div>
 </template>
@@ -19,13 +16,19 @@ export default {
       testState: {}
     }
   },
+  created() {
+    this.initializeState()
+  },
   methods: {
-    setConfig(event){
-      console.log("page change: ", event)
-      if (event.source === "TestSetup"){
-        this.testState = {n_buttons: event.config.n_buttons}
+    initializeState() {
+      let initTestState = {
+        n_buttons: 2
       }
 
+      let savedTestState = JSON.parse(localStorage.getItem('testState'))
+      if (!savedTestState || !savedTestState.n_buttons){
+        localStorage.setItem('testState', JSON.stringify(initTestState))
+      }
     }
   }
 }
