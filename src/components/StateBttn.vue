@@ -1,9 +1,17 @@
 <template>
+  <g>
   <rect @click="toggleState"
         :x=x :y=y
         :width=width :height=height
         :fill="color"
-        :stroke="stroke_color" :stroke-width="stroke"><a href="">theta</a></rect>
+        :stroke="stroke_color" :stroke-width="stroke"><a href="">theta</a>
+  </rect>
+    <text @click="toggleState"
+          :x=x_center :y=y_center
+          text-anchor="middle"
+          dominant-baseline="middle"
+          class="button-text">{{theta}}</text>
+  </g>
 </template>
 
 <script>
@@ -14,7 +22,8 @@ export default {
     y_center: Number,
     button_width: Number,
     button_height: Number,
-    theta: String
+    theta: String,
+    onClick: Function
   },
   data: function () {
     return {
@@ -29,23 +38,15 @@ export default {
   },
   methods: {
     toggleState() {
-      console.log("clickity clackety")
       this.stroke == 0 ? this.stroke = 5 : this.stroke = 0
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ theta: this.theta })
-      };
-      var url = "http://localhost:12345/" + this.theta
-      console.log(url)
-      fetch(url, requestOptions)
-          .then(response => { console.log(response.json()); return response.json()})
-          .then(data => (this.postId = data.id));
+      this.onClick(this.theta)
     }
   }
 }
 </script>
 
 <style scoped>
-
+.button-text {
+  cursor: default;
+}
 </style>

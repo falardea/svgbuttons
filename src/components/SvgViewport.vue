@@ -5,8 +5,10 @@
                   :y_center="points[i-1].y"
                   :button_width="b_width"
                   :button_height="b_height"
-                  :theta="theta[i-1]"></state-button>
+                  :theta="theta[i-1]"
+                  :on-click="ChildClick"></state-button>
   </svg>
+  <div v-if="responseRx">Datapoint {{thetaRx}} Complete</div>
 </template>
 
 <script>
@@ -35,6 +37,9 @@ export default {
     width: Number,
     height: Number
   },
+  created() {
+    console.log("svgViewport n_buttons: ", this.n_buttons)
+  },
   components: {
     StateButton
   },
@@ -45,44 +50,50 @@ export default {
     this.theta = []
     this.midpoints = []
     for (let i of Array(this.n_buttons).keys()) {
-      this.theta[i] = i * this.base_angle;
+      this.theta[i] = (i * this.base_angle).toString();
       this.midpoints[i] = new Point((this.width / 2 + hx * Math.cos((90 - this.theta[i]) * Math.PI / 180)),
           (this.height / 2 - hy * Math.cos(this.theta[i] * Math.PI / 180)))
-      console.log("Theta of: " + this.theta[i] + "deg = " + this.midpoints[i].x + ", " + this.midpoints[i].y)
     }
 
     return {
       x_value: 10,
       y_value: 10,
-      x_values: [this.width / 2, this.width - buttonWidth, this.width / 2, this.width - (this.width - buttonWidth)],
-      y_values: [this.height - (this.height - buttonHeight), this.height / 2, this.height - buttonHeight, this.height / 2],
       b_width: buttonWidth,
       b_height: buttonHeight,
       points: this.midpoints,
-      theta: this.theta
+      theta: this.theta,
+      endpointResponse: "",
+      thetaRx: "",
+      responseRx: false
     }
   },
-  created: function () {
-    // If the number of buttons is not even, we'll have oddly shaped button wheels, but that's a problem for
-    // another day
-    // const hx = this.width/2 - margx;
-    // const hy = this.height/2 - margy;
-    // this.base_angle = 360/this.n_buttons
-    // this.theta = []
-    // this.midpoints = []
-    // for (let i of Array(this.n_buttons).keys()) {
-    //   this.theta[i] = i * this.base_angle;
-    //   this.midpoints[i] = new Point((this.width/2 - hx*Math.sin(this.theta[i] * Math.PI / 180)),
-    //           (this.height/2 - hy*Math.cos(this.theta[i] * Math.PI / 180)))
-    //   console.log("Theta of: " + this.theta[i] + "deg = " + this.midpoints[i].x + ", " + this.midpoints[i].y)
-    // }
+  methods:{
+    ChildClick (theta){
+      console.log(theta)
+      this.responseRx = false
+
+      fetch(
+          "http://localhost:12345/" + theta,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ theta: theta })
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data.theta)
+            this.responseRx = true
+            this.thetaRx = data.theta
+          })
+          .catch(error => (console.error("error: " + error)))
+    }
   }
 }
 </script>
 
 <style scoped>
 .viewport {
-  background-color: red;
-  stroke-width: 0px
+  background-color: lightgrey;
+  border: 5px solid black;
 }
 </style>

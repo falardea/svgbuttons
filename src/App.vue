@@ -1,9 +1,14 @@
 <template>
   <div id="nav">
     <router-link to="/">Home</router-link> |
+    <router-link to="/AxialRatio">AxialRatio</router-link> |
+    <router-link to="/AxialRatio/TestSetup">TestSetup</router-link> |
+    <router-link to="/AxialRatio/ButtonWheel">ButtonWheel</router-link> |
     <router-link to="/about">About</router-link>
   </div>
-  <router-view/>
+  <router-view v-slot="{ Component }">
+      <component :is="Component" />
+  </router-view>
 </template>
 
 <style>
