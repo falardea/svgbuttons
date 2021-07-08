@@ -9,6 +9,9 @@
 
 <script>
 
+import router from "../router";
+import VIEW_NAMES from "../ViewNames"
+
 export default {
   name: 'AxialRatio',
   data: function() {
@@ -19,19 +22,21 @@ export default {
   created() {
     this.initializeState()
   },
+  watch: {
+    '$route' (to, from) {
+      if (to.name === VIEW_NAMES.ROOT_VIEW_NAME){
+        router.push(from.path)
+      }
+    }
+  },
   methods: {
     initializeState() {
-      let initTestState = {
-        n_buttons: 2
-      }
-
       let savedTestState = JSON.parse(localStorage.getItem('testState'))
       if (!savedTestState || !savedTestState.n_buttons){
-        localStorage.setItem('testState', JSON.stringify(initTestState))
+        router.push(VIEW_NAMES.toPath(VIEW_NAMES.TEST_CONFIG_NAME))
       }
     }
   }
 }
-
 
 </script>

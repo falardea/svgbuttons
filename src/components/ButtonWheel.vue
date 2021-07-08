@@ -1,8 +1,6 @@
 <template>
   <div>
-    <button>
-      <router-link to="/AxialRatio/TestSetup">Back</router-link>
-    </button>
+    <button @click="backButton">Back</button>
   </div>
   <div>
     <svg-viewport
@@ -14,17 +12,22 @@
 
 <script>
 import SvgViewport from '@/components/SvgViewport.vue';
+import router from "../router";
+import VIEW_NAMES from "../ViewNames";
 
 export default {
-  name: 'ButtonWheel',
+  name: VIEW_NAMES.TEST_EXECUTION_NAME,
   created() {
-    this.testState = this.getTestState()
-    if (this.testState && this.testState.n_buttons){
-      this.n = parseInt(this.testState.n_buttons)
-      console.log("n: ", this.testState.n_buttons)
-    } else {
+    try{
+      this.testState = this.getTestState()
+      if (this.testState.n_buttons){
+        this.n = parseInt(this.testState.n_buttons)
+      } else {
+        this.n = 4
+      }
+
+    } catch (err) {
       this.n = 4
-      console.log("no buttons passed to page, setting to: ", this.n)
     }
   },
   components: {
@@ -40,6 +43,9 @@ export default {
   methods: {
     getTestState(){
       return JSON.parse(localStorage.getItem('testState'))
+    },
+    backButton() {
+      router.push(VIEW_NAMES.toPath(VIEW_NAMES.TEST_CONFIG_NAME))
     }
   }
 }

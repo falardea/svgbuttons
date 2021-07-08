@@ -37,9 +37,6 @@ export default {
     width: Number,
     height: Number
   },
-  created() {
-    console.log("svgViewport n_buttons: ", this.n_buttons)
-  },
   components: {
     StateButton
   },
@@ -69,7 +66,7 @@ export default {
   },
   methods:{
     ChildClick (theta){
-      console.log(theta)
+      console.log("button ", theta, " pressed")
       this.responseRx = false
 
       fetch(
@@ -81,9 +78,12 @@ export default {
           })
           .then(response => response.json())
           .then(data => {
-            console.log(data.theta)
+            console.log("test point ", data.theta, " reports completed from server")
             this.responseRx = true
             this.thetaRx = data.theta
+            /////////////////////////////////////////////////////
+            localStorage.removeItem('testState')
+            /////////////////////////////////////////////////////
           })
           .catch(error => (console.error("error: " + error)))
     }

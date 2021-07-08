@@ -17,9 +17,10 @@
 <script>
 
 import router from "../router";
+import VIEW_NAMES from "../ViewNames";
 
 export default {
-  name: "TestSetup",
+  name: VIEW_NAMES.TEST_CONFIG_NAME,
   data: function () {
     return {
       n_buttons: '',
@@ -27,14 +28,21 @@ export default {
   },
   methods: {
     nextPage(){
-      console.log("Next Clicked")
       this.updateState()
-      router.push("/AxialRatio/ButtonWheel")
+      router.push(VIEW_NAMES.toPath(VIEW_NAMES.TEST_EXECUTION_NAME))
     },
     updateState(){
-      this.testState = JSON.parse(localStorage.getItem('testState'))
-      this.testState.n_buttons = this.n_buttons
-      localStorage.setItem('testState', JSON.stringify(this.testState))
+      try{
+        this.testState = JSON.parse(localStorage.getItem('testState'))
+        if (this.n_buttons){
+          this.testState.n_buttons = this.n_buttons
+          localStorage.setItem('testState', JSON.stringify(this.testState))
+        }
+      } catch (err) {
+        this.testState = {n_buttons: this.n_buttons}
+        localStorage.setItem('testState', JSON.stringify(this.testState))
+      }
+
     }
   }
 }

@@ -3,12 +3,13 @@ import Home from '../views/Home.vue'
 import AxialRatio from "../views/AxialRatio"
 import TestSetup from "../components/TestSetup"
 import ButtonWheel from "../components/ButtonWheel"
+import VIEW_NAMES from "../ViewNames";
 
 const routes = [
-  { path: '/AxialRatio', name: 'AxialRatio', component: AxialRatio,
+  { path: VIEW_NAMES.toPath(), name: VIEW_NAMES.ROOT_VIEW_NAME, component: AxialRatio,
   children: [
-    { path: 'TestSetup', component: TestSetup },
-    { path: 'ButtonWheel', component: ButtonWheel },
+    { path: VIEW_NAMES.TEST_CONFIG_NAME, component: TestSetup },
+    { path: VIEW_NAMES.TEST_EXECUTION_NAME, component: ButtonWheel },
   ]},
   { path: '/', name: 'Home', component: Home },
   { path: '/about', name: 'About',
