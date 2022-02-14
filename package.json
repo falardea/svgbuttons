@@ -34,7 +34,17 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "semi": ["warn", "always"],
+      "indent": ["warn", "tab",
+        {"SwitchCase": 1}],
+      "no-tabs": "off",
+      "no-mixed-spaces-and-tabs": ["warn", "smart-tabs"],
+      "quotes": ["warn", "single",
+        {"allowTemplateLiterals":  true}],
+      "eqeqeq": ["error", "smart"],
+      "space-before-function-paren": ["off"]
+    }
   },
   "browserslist": [
     "> 1%",
