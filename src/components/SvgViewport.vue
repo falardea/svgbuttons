@@ -1,14 +1,16 @@
 <template>
-	<svg :width=width :height=height class="viewport">
-		<state-button v-for="i in n_buttons" :key="i"
-		              :x_center="points[i-1].x"
-		              :y_center="points[i-1].y"
-		              :button_width="b_width"
-		              :button_height="b_height"
-		              :theta="theta[i-1]"
-		              :on-click="ChildClick"></state-button>
-	</svg>
-	<div v-if="responseRx">Datapoint {{ thetaRx }} Complete</div>
+	<div>
+		<svg :width=width :height=height class="viewport">
+			<state-button v-for="i in n_buttons" :key="i"
+			              :x_center="points[i-1].x"
+			              :y_center="points[i-1].y"
+			              :button_width="b_width"
+			              :button_height="b_height"
+			              :theta="theta[i-1]"
+			              :on-click="ChildClick"></state-button>
+		</svg>
+		<div v-if="responseRx">Datapoint {{ thetaRx }} Complete</div>
+	</div>
 </template>
 
 <script>
